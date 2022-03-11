@@ -1,37 +1,64 @@
 #include <Servo.h>
-Servo motor1;
-Servo motor2;
+Servo lmotor;
+Servo rmotor;
 
-int pwm_value;
+int ch1;
+int ch2;
 
 void setup()
 {
-       motor1.attach(9);
-       motor2.attach(10);
+       lmotor.attach(9);
+       rmotor.attach(10);
 
        pinMode(6, INPUT);
+       pinMode(7, INPUT);
 }
 
 void loop()
 {
 
-       pwm_value = pulseIn(6, HIGH);
+       ch1 = pulseIn(6, HIGH);
+       ch2 = pulseIn(7, HIGH);
 
-       if (pwm_value >= 1500)
+       if (ch1 >= 1500)
        {
-
-              motor1.write(60);
-              motor2.write(60);
+              if (ch2 >= 1500)
+              {
+                     lmotor.write(120);
+                     rmotor.write(60);
+              }
+              else if (ch2 <= 1450)
+              {
+                     lmotor.write(60);
+                     rmotor.write(120);
+              }
+              else
+              {
+                     lmotor.write(60);
+                     rmotor.write(60);
+              }
        }
-       else if (pwm_value <= 1450)
+       else if (ch1 <= 1450)
        {
-              motor1.write(120);
-              motor2.write(120);
+              if (ch2 >= 1500)
+              {
+                     lmotor.write(120);
+                     rmotor.write(60);
+              }
+              else if (ch2 <= 1450)
+              {
+                     lmotor.write(60);
+                     rmotor.write(120);
+              }
+              else
+              {
+                     lmotor.write(120);
+                     rmotor.write(120);
+              }
        }
-
        else
        {
-              motor1.write(90);
-              motor2.write(90);
+              lmotor.write(90);
+              rmotor.write(90);
        }
 }
