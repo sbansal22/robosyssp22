@@ -1,37 +1,69 @@
 #include <Servo.h>
-Servo motor1;
-Servo motor2;
+Servo lmotor;
+Servo rmotor;
 
-int pwm_value;
+int ch1;
+int ch2;
 
 void setup()
 {
-       motor1.attach(9);
-       motor2.attach(10);
+       lmotor.attach(9);
+       rmotor.attach(10);
 
        pinMode(6, INPUT);
+       pinMode(5, INPUT);
 }
 
 void loop()
 {
 
-       pwm_value = pulseIn(6, HIGH);
+       ch1 = pulseIn(6, HIGH);
+       ch2 = pulseIn(5, HIGH);
 
-       if (pwm_value >= 1500)
+       // Going backwards
+       if (ch1 >= 1500)
        {
-
-              motor1.write(60);
-              motor2.write(60);
+              // turning right
+              if (ch2 >= 1500)
+              {
+                     lmotor.write(80);
+                     rmotor.write(65);
+              }
+              else if (ch2 <= 1450)
+              {
+                     lmotor.write(65);
+                     rmotor.write(80);
+              }
+              // Straight backward
+              else
+              {
+                     lmotor.write(60);
+                     rmotor.write(60);
+              }
        }
-       else if (pwm_value <= 1450)
+
+       // Straight backward
+       else if (ch1 <= 1450)
        {
-              motor1.write(120);
-              motor2.write(120);
+              if (ch2 >= 1500)
+              {
+                     lmotor.write(100);
+                     rmotor.write(115);
+              }
+              else if (ch2 <= 1450)
+              {
+                     lmotor.write(115);
+                     rmotor.write(100);
+              }
+              else
+              {
+                     lmotor.write(120);
+                     rmotor.write(120);
+              }
        }
-
        else
        {
-              motor1.write(90);
-              motor2.write(90);
+              lmotor.write(90);
+              rmotor.write(90);
        }
 }
