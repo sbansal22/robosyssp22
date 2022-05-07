@@ -20,22 +20,21 @@ void loop()
 
        ch1 = pulseIn(6, HIGH);
        
+      // Driving forward
       if (ch1 <= 1000)
       {
-        Serial.println("driving forward");
         rmotor.write(140);
-        
       }
       
+      // Driving backward
       else if (ch1 >= 1900)
       {
-        Serial.println("driving backward");
         rmotor.write(60);
       }
       
+      // Stop driving
       else
       {
-        Serial.println("Stop");
         rmotor.write(95);
       }
         
